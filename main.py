@@ -117,6 +117,13 @@ def ShowAnswerOptions_ArrayContents(answerNum:int, array:list, passIndex:int, an
         answers.append(SelectionSort(array.copy())[passIndex+1])
 
     shuffle(answers)
+
+    #### TEST CODE TO REMOVE DUPLICATES
+    checkIndex = 0
+    for ans in answers:
+        if checkIndex != answerNum:
+            pass
+        checkIndex+=1
     #print(useAlgo)
     #print(f"======={answerNum}")
     #print(f"{BubbleSort(array.copy())[passIndex]} | {answer}")
@@ -130,7 +137,7 @@ def ShowAnswerOptions_ArrayContents(answerNum:int, array:list, passIndex:int, an
     answers.insert(answerNum, answer)
 
     for i in range(len(answers)):
-        print(f"{i+1}. {answers[i]}")
+        print(f">>  {i+1}.      {FormatArrayToStr(answers[i])}")
 
 def ShowAnswerOptions_AlgoType(answerNum:int, passes:list, useAlgo:int, hardMode):
     algorithms = ["Bubble", "Insertion", "Selection"]
@@ -163,8 +170,8 @@ def Question_NextPass(answerNum:int, array:list, passes:list, useAlgo:int, hardM
     elif useAlgo == 2: algo = "Insertion Sort"
     elif useAlgo == 3: algo = "Selection Sort"
     print(f">> This question used the {algo} algorithim <<")
-    if result == 0: print(f"Wrong! Answer was {answerNum}.")
-    elif result == 1: print("Correct!")
+    if result == 0: print(f"❌ Wrong! Answer was {answerNum}.")
+    elif result == 1: print("✅ Correct!")
     return result
 
 
@@ -185,7 +192,7 @@ def Question_TextBased():
 def Question(question:int, array:list, hardMode:bool = False):
     result = 0 # 0=False, 1=True, 2=Quit
     answerNum = randint(1,4) 
-    useAlgo = randint(1, 3) # NOTE: use 1 as bubble is known to work
+    useAlgo = randint(1, 3) # NOTE: use 1 as bubble is known to work?
     useQuestion = 2 #randint(1,3) # not using 4 yet
     passes = []  
     if useAlgo == 1: passes = BubbleSort(array.copy())
@@ -239,7 +246,7 @@ def StartTesting(questions:int=10, arrayLength:int=7, hardMode = False):
             for i in testedResults:
                 if i: correctQ+=1
             Title("RESULTS")
-            print(f"> Attempted: {len(testedQuestions)}\n> Correct{correctQ}\n> OVERALL RESULTS: {correctQ}/{len(testedQuestions)} ({str((correctQ/len(testedQuestions))*100)[:5]}%)")
+            print(f"> Attempted: {len(testedQuestions)}\n> Correct: {correctQ}\n> OVERALL RESULTS: {correctQ}/{len(testedQuestions)} ({str((correctQ/len(testedQuestions))*100)[:5]}%)")
 
     
 def DisplayResults(hardMode:bool):
@@ -277,3 +284,4 @@ def Menu():
         
 
 Menu()
+#Question_NextPass(3, [57,23,66,99,34,7,43], InsertionSort([57,23,66,99,34,7,43]), 2, False)
