@@ -99,6 +99,33 @@ def InputAnswer(answerNum:int, answer):
     elif ans == "0": return 2
     else: return 0
 
+def ShuffleAnswers(answers:list, answer:list):
+    #shuffle(answers)
+
+    
+    dupAnswers = []
+    checkIndex = 0
+    for ans in answers:
+        isDup = False
+        for item in dupAnswers: 
+            if ans != item: isDup=False
+            else: isDup=True
+        
+        if isDup: 
+            print(f"SHUFFLING ANSWER DETECTED: {ans}")
+            shuffle(ans)
+            print(f">>> {ans}")
+            
+        else: dupAnswers.append(ans)
+            
+
+        if ans == answer: shuffle(ans)
+            #answers[checkIndex] = ans 
+        
+
+        checkIndex+=1
+    
+    return answers
 
 def ShowAnswerOptions_ArrayContents(answerNum:int, array:list, passIndex:int, answer:list, useAlgo:int, hardMode):
     answers = []
@@ -116,24 +143,7 @@ def ShowAnswerOptions_ArrayContents(answerNum:int, array:list, passIndex:int, an
         answers.append(InsertionSort(array.copy())[passIndex])
         answers.append(SelectionSort(array.copy())[passIndex+1])
 
-    shuffle(answers)
-
-    #### TEST CODE TO REMOVE DUPLICATES
-    checkIndex = 0
-    for ans in answers:
-        if checkIndex != answerNum:
-            pass
-        checkIndex+=1
-    #print(useAlgo)
-    #print(f"======={answerNum}")
-    #print(f"{BubbleSort(array.copy())[passIndex]} | {answer}")
-    #print(BubbleSort(array.copy())[passIndex+1])
-    #print(InsertionSort(array.copy())[passIndex])
-    #print(SelectionSort(array.copy())[passIndex])
-    #print('....')
-    #for i in answers:
-    #    print(i)
-    #print('========')
+    ShuffleAnswers(answers.copy(), answer.copy())
     answers.insert(answerNum, answer)
 
     for i in range(len(answers)):
@@ -162,7 +172,7 @@ def Question_NextPass(answerNum:int, array:list, passes:list, useAlgo:int, hardM
     print(f"This table shows the intial contents of an array and the contents \nafter one pass of a valid sorting procedure.")
     print(f"> Initial:  {FormatArrayToStr(array)}\n> 1st Pass: {FormatArrayToStr(passes[0])}")
     print("What are the contents of the array after the second pass?")
-    ShowAnswerOptions_ArrayContents(answerNum, array, 1, passes[1], useAlgo, hardMode)
+    ShowAnswerOptions_ArrayContents(answerNum, array.copy(), 1, passes[1], useAlgo, hardMode)
     result = InputAnswer(answerNum, array)
     
     algo = "null"
@@ -285,3 +295,8 @@ def Menu():
 
 Menu()
 #Question_NextPass(3, [57,23,66,99,34,7,43], InsertionSort([57,23,66,99,34,7,43]), 2, False)
+answers = [[1,5,3,1,5],[1,3,7,1,5],[1,3,7,1,5],[3,9,5,8,1]]
+answer = [1,5,3,1,5]
+print(answers)
+answers = ShuffleAnswers(answers.copy(), answer)
+print(answers)
