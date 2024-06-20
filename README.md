@@ -15,3 +15,7 @@ Still a **work in progress** however so far one style of HSC question out of the
     - Some Passes Completed what is next
 - Settings
 - Advanced Options (hard mode, array length, question amount)
+
+### BUGS:
+- Sometimes answers can be duplicates
+- I think some of the sorting algos might be a bit bugged

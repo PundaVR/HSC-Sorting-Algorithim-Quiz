@@ -295,8 +295,8 @@ def Menu():
 
 Menu()
 #Question_NextPass(3, [57,23,66,99,34,7,43], InsertionSort([57,23,66,99,34,7,43]), 2, False)
-answers = [[1,5,3,1,5],[1,3,7,1,5],[1,3,7,1,5],[3,9,5,8,1]]
-answer = [1,5,3,1,5]
-print(answers)
-answers = ShuffleAnswers(answers.copy(), answer)
-print(answers)
+#answers = [[1,5,3,1,5],[1,3,7,1,5],[1,3,7,1,5],[3,9,5,8,1]]
+#answer = [1,5,3,1,5]
+#print(answers)
+#answers = ShuffleAnswers(answers.copy(), answer)
+#print(answers)
