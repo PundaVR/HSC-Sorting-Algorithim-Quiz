@@ -1,48 +1,67 @@
 from random import randint, shuffle
 
 AppConfigs = {
-    "debug": False
+    "debug": True
 }
 
 testedQuestions = []
 testedResults = []
 
+
 def BubbleSort(array:list):
     passes = []
-    for n in range(len(array)-1, 0, -1):
-        for i in range(n):
-            if array[i] > array[i + 1]:
-                array[i], array[i + 1] = array[i + 1], array[i]
+    last = len(array)
+    swapped = True
+    while swapped:
+        swapped = False
+        i = 1
+        while i < last-1: #-1 to now go overflow
+            if array[i] > array[i+1]:
+                temp = array[i]
+                array[i] = array[i+1]
+                array[i+1] = temp
+                swapped = True
+            i+=1
+        last-=1
+        if(AppConfigs["debug"]): print(f"Bubble Sort #{len(passes)}: {array}")
         passes.append(array.copy())
-    return passes
+    return passes                
+
 
 def InsertionSort(array:list):
     passes = []
-    for i in range(1, len(array)):
-        currentValue = array[i]
-        index = i
-
-        while index > 0 and array[index - 1] > currentValue:
-            array[index] = array[index - 1]
-            index -= 1
-
-        array[index] = currentValue
+    first = 1
+    last = len(array)-1
+    positionOfNext = last-1
+    while positionOfNext >= first:
+        next = array[positionOfNext]
+        current = positionOfNext
+        while (current < last) and (next > array[current+1]):
+            current+=1
+            array[current-1] = array[current]
+        array[current] = next
+        positionOfNext-=1
+        if(AppConfigs["debug"]): print(f"Insertion Sort #{len(passes)}: {array}")
         passes.append(array.copy())
     return passes
 
 def SelectionSort(array:list):
     passes = []
-    n = len(array)
-    for i in range(n-1):
-        min = i
-        for j in range(i+1, n):
-            if array[j]<array[min]: # change sign
-                min=j
-            j+=1
-        if min != i:
-            x = array[i]
-            array[i] = array[min]
-            array[min] = x
+    endUnsorted = len(array)-1 #-1 to not go out of range
+    while endUnsorted > 1:
+        i = 0
+        max = array[i]
+        posMax = i
+        while i < endUnsorted:
+            i+=1
+            if array[i] > max:
+                max = array[i]
+                posMax = i
+        temp = array[posMax]
+        array[posMax] = array[endUnsorted]
+        array[endUnsorted] = temp
+        endUnsorted -=1
+        if(AppConfigs["debug"]): print(f"Selection Sort #{len(passes)}: {array}")
         passes.append(array.copy())
     return passes
 
