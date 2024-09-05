@@ -23,7 +23,7 @@ def BubbleSort(array:list):
                 swapped = True
             i+=1
         last-=1
-        if(AppConfigs["debug"]): print(f"Bubble Sort #{len(passes)}: {array}")
+        if(AppConfigs["debug"]): print(f"Bubble Sort #{len(passes)+1}: {array}")
         passes.append(array.copy())
     return passes                
 
@@ -41,7 +41,7 @@ def InsertionSort(array:list):
             array[current-1] = array[current]
         array[current] = next
         positionOfNext-=1
-        if(AppConfigs["debug"]): print(f"Insertion Sort #{len(passes)}: {array}")
+        if(AppConfigs["debug"]): print(f"Insertion Sort #{len(passes)+1}: {array}")
         passes.append(array.copy())
     return passes
 
@@ -61,7 +61,7 @@ def SelectionSort(array:list):
         array[posMax] = array[endUnsorted]
         array[endUnsorted] = temp
         endUnsorted -=1
-        if(AppConfigs["debug"]): print(f"Selection Sort #{len(passes)}: {array}")
+        if(AppConfigs["debug"]): print(f"Selection Sort #{len(passes)+1}: {array}")
         passes.append(array.copy())
     return passes
 
@@ -163,10 +163,11 @@ def ShowAnswerOptions_ArrayContents(answerNum:int, array:list, passIndex:int, an
         answers.append(SelectionSort(array.copy())[passIndex+1])
 
     ShuffleAnswers(answers.copy(), answer.copy())
-    answers.insert(answerNum, answer)
-
+    if AppConfigs["debug"]: print(f"Correct answer: {answer}\nWrong answers: {answers}")
+    answers.insert(answerNum, answer) #sometimes inserts answer into wrong pos???
+    if AppConfigs["debug"]: print(f"Inserted correct answer at #{answerNum}:\n{answers}")
     for i in range(len(answers)):
-        print(f">>  {i+1}.      {FormatArrayToStr(answers[i])}")
+        print(f">{answerNum}>  {i+1}.      {FormatArrayToStr(answers[i])}")
 
 def ShowAnswerOptions_AlgoType(answerNum:int, passes:list, useAlgo:int, hardMode):
     algorithms = ["Bubble", "Insertion", "Selection"]
@@ -198,7 +199,7 @@ def Question_NextPass(answerNum:int, array:list, passes:list, useAlgo:int, hardM
     if useAlgo == 1: algo = "Bubble Sort"
     elif useAlgo == 2: algo = "Insertion Sort"
     elif useAlgo == 3: algo = "Selection Sort"
-    print(f">> This question used the {algo} algorithim <<")
+    print(f">> This question used the {algo} algorithim <<") # somehow algo ges mixed up? says insertion instead of selection
     if result == 0: print(f"❌ Wrong! Answer was {answerNum}.")
     elif result == 1: print("✅ Correct!")
     return result
