@@ -1,7 +1,8 @@
 from random import randint, shuffle
+from math import floor
 
 AppConfigs = {
-    "debug": True
+    "debug": False
 }
 
 testedQuestions = []
@@ -161,18 +162,39 @@ def ShowAnswerOptions_ArrayContents(answerNum:int, array:list, passIndex:int, an
         answers.append(BubbleSort(array.copy())[passIndex])
         answers.append(InsertionSort(array.copy())[passIndex])
         answers.append(SelectionSort(array.copy())[passIndex+1])
-
+    
     ShuffleAnswers(answers.copy(), answer.copy())
     if AppConfigs["debug"]: print(f"Correct answer: {answer}\nWrong answers: {answers}")
-    answers.insert(answerNum, answer) #sometimes inserts answer into wrong pos???
-    if AppConfigs["debug"]: print(f"Inserted correct answer at #{answerNum}:\n{answers}")
+    answers.insert(answerNum-1, answer) #sometimes inserts answer into wrong pos???
+    if AppConfigs["debug"]: print(f"Inserted correct answer at #{answerNum}:\n- {answers}")
     for i in range(len(answers)):
-        print(f">{answerNum}>  {i+1}.      {FormatArrayToStr(answers[i])}")
+        print(f">>  {i+1}.      {FormatArrayToStr(answers[i])}")
 
 def ShowAnswerOptions_AlgoType(answerNum:int, passes:list, useAlgo:int, hardMode):
-    algorithms = ["Bubble", "Insertion", "Selection"]
+    answers = []
+    algorithms = ["Bubble", "Insertion", "Selection", "Binary", "Linear"]
+    answer = algorithms[useAlgo-1]
     #order = ["from the right", "from the left"] # NEED TO IMPLEMENT INTO ALGOS
+    if useAlgo == 1:
+        answers.append(algorithms[1])
+        answers.append(algorithms[2])
+        answers.append(algorithms[randint(3,4)])
+    elif useAlgo == 2:
+        answers.append(algorithms[0])
+        answers.append(algorithms[2])
+        answers.append(algorithms[randint(3,4)])
+    elif useAlgo == 3:
+        answers.append(algorithms[0])
+        answers.append(algorithms[1])
+        answers.append(algorithms[randint(3,4)])
+            
+    if AppConfigs["debug"]: print(f"Correct answer: {answer}\nWrong answers: {answers}")
+    answers.insert(answerNum-1, answer) #sometimes inserts answer into wrong pos???
+    if AppConfigs["debug"]: print(f"Inserted correct answer at #{answerNum}: {answers}")
+    for i in range(len(answers)):
+        print(f">>  {i+1}. {answers[i]}")#{FormatArrayToStr(answers[i])}")
 
+        
 #
 ##
 #
@@ -181,8 +203,30 @@ def Question_AtPassN(answerNum:int, array:list, passes:list, useAlgo:int, hardMo
     # show unsorted array
     # show array at a random pass
     # show array at an even later pass
-    # ask which sort method was beind used (i.e. Insertion Sort (from the right) 
-    pass
+    # ask which sort method was beind used (i.e. Insertion Sort (from the right)
+
+
+    passX = randint(1, floor(len(passes)/2))
+    passY = randint(floor(len(passes)/2)+1, len(passes)-1)
+    if AppConfigs["debug"]: print(f"random pass value: X={passX}, Y={passY}")
+    print(f"This table shows the intial contents of an array and the contents \nafter some passes of a valid sorting procedure.")
+    print(f"> Initial:  {FormatArrayToStr(array)}\n> Pass X{passX}: {FormatArrayToStr(passes[passX])}\n> Pass Y{passY}: {FormatArrayToStr(passes[passY])}")
+    print("Which sorting algorithim was used?")
+    ShowAnswerOptions_AlgoType(answerNum, passes[1], useAlgo, hardMode)
+    result = InputAnswer(answerNum, array)
+    
+    algo = "null"
+    if useAlgo == 1: algo = "Bubble Sort"
+    elif useAlgo == 2: algo = "Insertion Sort"
+    elif useAlgo == 3: algo = "Selection Sort"
+    print(f">> This question used the {algo} algorithim <<") 
+    if result == 0: print(f"❌ Wrong! Answer was {answerNum}.")
+    elif result == 1: print("✅ Correct!")
+    return result
+
+
+    
+
 
 def Question_NextPass(answerNum:int, array:list, passes:list, useAlgo:int, hardMode:bool):
     # show unsorted array
@@ -223,7 +267,7 @@ def Question(question:int, array:list, hardMode:bool = False):
     result = 0 # 0=False, 1=True, 2=Quit
     answerNum = randint(1,4) 
     useAlgo = randint(1, 3) # NOTE: use 1 as bubble is known to work?
-    useQuestion = 2 #randint(1,3) # not using 4 yet
+    useQuestion = randint(1,3) # not using 4 yet
     passes = []  
     if useAlgo == 1: passes = BubbleSort(array.copy())
     elif useAlgo == 2: passes = InsertionSort(array.copy())
