@@ -132,9 +132,9 @@ def ShuffleAnswers(answers:list, answer:list):
             else: isDup=True
         
         if isDup: 
-            print(f"SHUFFLING ANSWER DETECTED: {ans}")
+            if AppConfigs["debug"]: print(f"SHUFFLING ANSWER DETECTED: {ans}")
             shuffle(ans)
-            print(f">>> {ans}")
+            if AppConfigs["debug"]: print(f">>> {ans}")
             
         else: dupAnswers.append(ans)
             
@@ -195,6 +195,8 @@ def ShowAnswerOptions_AlgoType(answerNum:int, passes:list, useAlgo:int, hardMode
         print(f">>  {i+1}. {answers[i]}")#{FormatArrayToStr(answers[i])}")
 
         
+def ShowAnswerOptions_NextPass(answerNum:int, array:list, passes:list, useAlgo:int, hardMode):
+    pass
 #
 ##
 #
@@ -238,7 +240,7 @@ def Question_NextPass(answerNum:int, array:list, passes:list, useAlgo:int, hardM
     print("What are the contents of the array after the second pass?")
     ShowAnswerOptions_ArrayContents(answerNum, array.copy(), 1, passes[1], useAlgo, hardMode)
     result = InputAnswer(answerNum, array)
-    
+
     algo = "null"
     if useAlgo == 1: algo = "Bubble Sort"
     elif useAlgo == 2: algo = "Insertion Sort"
@@ -252,7 +254,22 @@ def Question_NextPass(answerNum:int, array:list, passes:list, useAlgo:int, hardM
 def Question_SomePassesCompleted(answerNum:int, array:list, passes:list, useAlgo:int, hardMode:bool):
     # Show array at a random pass
     # Ask which of the following is a possible result of the next pass
-    pass
+    nextPass = randint(1, len(passes)-1)
+
+    print(f"This table shows an array after an unknown amount of passes with a sorting algorithim.")
+    print(f"> Array:  {FormatArrayToStr(passes[nextPass])}")
+    print("What are the contents of the array on the next pass?")
+    ShowAnswerOptions_ArrayContents(answerNum, array, nextPass, passes[nextPass+1], useAlgo, hardMode)
+    result = InputAnswer(answerNum, passes[nextPass+1])
+    
+    algo = "null"
+    if useAlgo == 1: algo = "Bubble Sort"
+    elif useAlgo == 2: algo = "Insertion Sort"
+    elif useAlgo == 3: algo = "Selection Sort"
+    print(f">> This question used the {algo} algorithim <<") # somehow algo ges mixed up? says insertion instead of selection
+    if result == 0: print(f"❌ Wrong! Answer was {answerNum}.")
+    elif result == 1: print("✅ Correct!")
+    return result
 
 def Question_TextBased():
     # After the first pass of a sort, only the last two elements of an array have changed value.
