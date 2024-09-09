@@ -254,7 +254,7 @@ def Question_NextPass(answerNum:int, array:list, passes:list, useAlgo:int, hardM
 def Question_SomePassesCompleted(answerNum:int, array:list, passes:list, useAlgo:int, hardMode:bool):
     # Show array at a random pass
     # Ask which of the following is a possible result of the next pass
-    nextPass = randint(1, len(passes)-1)
+    nextPass = randint(1, len(passes)-2)
 
     print(f"This table shows an array after an unknown amount of passes with a sorting algorithim.")
     print(f"> Array:  {FormatArrayToStr(passes[nextPass])}")
