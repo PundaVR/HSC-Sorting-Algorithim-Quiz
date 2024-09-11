@@ -2,7 +2,7 @@ from random import randint, shuffle
 from math import floor
 
 AppConfigs = {
-    "debug": False
+    "debug": True
 }
 
 testedQuestions = []
@@ -15,7 +15,7 @@ def BubbleSort(array:list):
     swapped = True
     while swapped:
         swapped = False
-        i = 1
+        i = 0
         while i < last-1: #-1 to now go overflow
             if array[i] > array[i+1]:
                 temp = array[i]
@@ -206,13 +206,12 @@ def Question_AtPassN(answerNum:int, array:list, passes:list, useAlgo:int, hardMo
     # show array at a random pass
     # show array at an even later pass
     # ask which sort method was beind used (i.e. Insertion Sort (from the right)
-
-
+    
     passX = randint(1, floor(len(passes)/2))
     passY = randint(floor(len(passes)/2)+1, len(passes)-1)
     if AppConfigs["debug"]: print(f"random pass value: X={passX}, Y={passY}")
     print(f"This table shows the intial contents of an array and the contents \nafter some passes of a valid sorting procedure.")
-    print(f"> Initial:  {FormatArrayToStr(array)}\n> Pass X{passX}: {FormatArrayToStr(passes[passX])}\n> Pass Y{passY}: {FormatArrayToStr(passes[passY])}")
+    print(f"> Initial:  {FormatArrayToStr(array)}\n> Pass X{passX}:  {FormatArrayToStr(passes[passX])}\n> Pass Y{passY}:  {FormatArrayToStr(passes[passY])}")
     print("Which sorting algorithim was used?")
     ShowAnswerOptions_AlgoType(answerNum, passes[1], useAlgo, hardMode)
     result = InputAnswer(answerNum, array)
@@ -257,7 +256,7 @@ def Question_SomePassesCompleted(answerNum:int, array:list, passes:list, useAlgo
     nextPass = randint(1, len(passes)-2)
 
     print(f"This table shows an array after an unknown amount of passes with a sorting algorithim.")
-    print(f"> Array:  {FormatArrayToStr(passes[nextPass])}")
+    print(f"> Array:    {FormatArrayToStr(passes[nextPass])}")
     print("What are the contents of the array on the next pass?")
     ShowAnswerOptions_ArrayContents(answerNum, array, nextPass, passes[nextPass+1], useAlgo, hardMode)
     result = InputAnswer(answerNum, passes[nextPass+1])
